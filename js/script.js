@@ -70,4 +70,47 @@ document.addEventListener('DOMContentLoaded', () => {
             el.classList.add('active');
         });
     }, 100);
+
+    // Custom Cursor Logic
+    const cursor = document.querySelector('.cursor');
+    const follower = document.querySelector('.cursor-follower');
+
+    let mouseX = 0, mouseY = 0;
+    let posX = 0, posY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        // Immediate update for the dot
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top = mouseY + 'px';
+    });
+
+    // Smooth follow for the circle
+    function animateCursor() {
+        posX += (mouseX - posX) / 9;
+        posY += (mouseY - posY) / 9;
+
+        follower.style.left = posX + 'px';
+        follower.style.top = posY + 'px';
+
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover effects
+    const interactiveElements = document.querySelectorAll('a, button, .btn, .btn-kakao, input, select, textarea');
+
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('active');
+            follower.classList.add('active');
+        });
+
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
+            follower.classList.remove('active');
+        });
+    });
 });
